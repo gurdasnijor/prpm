@@ -5,6 +5,13 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['src/**/__tests__/**/*.test.ts'],
+    // Run tests in a single thread to avoid IPC channel errors in CI
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],

@@ -6,6 +6,7 @@ export default defineConfig({
     include: ['src/__tests__/**/*.test.ts'],
     exclude: ['node_modules', 'dist'],
     testTimeout: 10000,
+    setupFiles: ['vitest.setup.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.ts'],
@@ -13,11 +14,11 @@ export default defineConfig({
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: 'coverage',
     },
-    // Run tests sequentially to avoid port conflicts and race conditions
-    pool: 'forks',
+    // Run tests in a single thread to avoid IPC channel errors in CI
+    pool: 'threads',
     poolOptions: {
-      forks: {
-        singleFork: true,
+      threads: {
+        singleThread: true,
       },
     },
     clearMocks: true,
